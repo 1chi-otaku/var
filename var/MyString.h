@@ -34,8 +34,8 @@ public:
 	void MyDelChr(char c); // Метод удаление символа со строки.
 	void Init(); // Метод инициализации строки с клавиатуры.
 	void Print(); // Метод вывода строки.
-	int MyStrLen(); //Методы возврата длины строки
-	int MyStrLen(const char* string);
+	int MyStrLen()const; //Методы возврата длины строки
+	int MyStrLen(const char* string)const;
 	int MyChr(char c); // Метод, возвращающий индекс символа в строке, в противном случае -1.
 	int MyStrCmp(MyString& b); // Метод сравнения строк.
 	bool MyStrStr(const char* str); // Метод поиска подстроки в строке.

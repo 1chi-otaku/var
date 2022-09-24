@@ -137,7 +137,7 @@ void MyString::Init() {
 void MyString::Print() {
 	cout << String << endl;
 }
-int MyString::MyStrLen() {
+int MyString::MyStrLen()const {
 	int count = 0;
 	for (int i = 0; String[i] != '\0'; i++)
 	{
@@ -146,7 +146,7 @@ int MyString::MyStrLen() {
 	return count;
 
 }
-int MyString::MyStrLen(const char* string) {
+int MyString::MyStrLen(const char* string)const {
 	int count = 0;
 	for (int i = 0; string[i] != '\0'; i++)
 	{

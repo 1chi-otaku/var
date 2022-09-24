@@ -7,15 +7,17 @@ using namespace std;
 int main() {
 
 
-	var a3("SEGA5");
+	var a3("Microsoft");
 
 
 
+	var a4(a3 + 5.2522);
 
-	var a(a3 / "SEGAA2");
+	if (a3 > 9) {
+		cout << "larger";
+	}
 
 
-	a.Print();
 
 
 
