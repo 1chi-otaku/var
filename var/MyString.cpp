@@ -191,6 +191,10 @@ char MyString::operator[](int index) {
 	return '\0';
 	;
 }
+char* MyString::GetString() const
+{
+	return String;
+}
 MyString& MyString::operator=(const MyString& obj) {
 	if (this == &obj) return *this;
 	if (String != nullptr) delete[]String;

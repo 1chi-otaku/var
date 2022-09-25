@@ -51,5 +51,7 @@ public:
 		return String;
 	}
 
+	char* GetString()const;
+
 
 };

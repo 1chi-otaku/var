@@ -314,14 +314,18 @@ var var::operator/(const char* value)const
 	switch (type)
 	{
 	case 1:
-		temp.int_var /= atoi(value);
+		char buffer[32];
+		_itoa_s(int_var, buffer, 10);
+		temp.str_var.MyStrCat(buffer);
 		break;
 	case 2:
-		temp.d_var /= atof(value);
+		char buffer2[32];
+		snprintf(buffer2, 32, "%lf",d_var);
+		temp.str_var.MyStrCat(buffer2);
 		break;
 	case 3:
 		bool isAps = true;
-		char buffer[64];
+		char buffer3[64];
 		int k = 0;
 		for (int i = 0; i < temp.str_var.MyStrLen(); i++)
 		{
@@ -333,13 +337,13 @@ var var::operator/(const char* value)const
 				}
 			}
 			if (isAps) {
-				buffer[k] = temp.str_var[i];
+				buffer3[k] = temp.str_var[i];
 				k++;
 			}
 			isAps = true;
 		}
-		buffer[k] = '\0';
-		temp.str_var = buffer;
+		buffer3[k] = '\0';
+		temp.str_var = buffer3;
 		break;
 	}
 	return temp;
@@ -897,6 +901,484 @@ bool var::operator!=(const char* value) const
 		if (str_var.MyStrLen() != strlen(value)) return 1;
 		else return 0;
 	}
+}
+
+var var::operator+(var var2) const
+{
+	var temp(*this);
+	switch (type)
+	{
+	case 1:
+		switch (var2.type)
+		{
+		case 1:
+			temp.int_var += var2.int_var;
+			break;
+		case 2:
+			temp.d_var += var2.d_var;
+			break;
+		case 3:
+			temp.int_var += atoi(var2.str_var);
+			break;
+		}
+
+	case 2:
+		switch (var2.type)
+		{
+		case 1:
+			temp.type = 2;
+			temp.d_var = var2.int_var + d_var;
+			break;
+		case 2:
+			temp.d_var += var2.d_var;
+			break;
+		case 3:
+			temp.d_var += atof(var2.str_var);
+			break;
+		}
+
+	case 3:
+		switch (var2.type)
+		{
+		case 1:
+			char buffer[32];
+			_itoa_s(var2.int_var, buffer, 10);
+			temp.str_var.MyStrCat(buffer);
+			break;
+		case 2:
+			char buffer2[32];
+			snprintf(buffer2, 32, "%lf", var2.d_var);
+			temp.str_var.MyStrCat(buffer2);
+			break;
+		case 3:
+			temp.str_var.MyStrCat(var2.str_var);
+			break;
+		}
+	}
+	return temp;
+}
+var var::operator-(var var2) const
+{
+	var temp(*this);
+	switch (type)
+	{
+	case 1:
+		switch (var2.type)
+		{
+		case 1:
+			temp.int_var -= var2.int_var;
+			break;
+		case 2:
+			temp.d_var -= var2.d_var;
+			break;
+		case 3:
+			temp.int_var -= atoi(var2.str_var);
+			break;
+		}
+
+	case 2:
+		switch (var2.type)
+		{
+		case 1:
+			temp.type = 2;
+			temp.d_var = var2.int_var - d_var;
+			break;
+		case 2:
+			temp.d_var -= var2.d_var;
+			break;
+		case 3:
+			temp.d_var -= atof(var2.str_var);
+			break;
+		}
+
+	case 3:
+		switch (var2.type)
+		{
+		case 1:
+			char buffer[32];
+			_itoa_s(var2.int_var, buffer, 10);
+			temp.str_var.MyStrCat(buffer);
+			break;
+		case 2:
+			char buffer2[32];
+			snprintf(buffer2, 32, "%lf", var2.d_var);
+			temp.str_var.MyStrCat(buffer2);
+			break;
+		case 3:
+			temp.str_var.MyStrCat(var2.str_var);
+			break;
+		}
+	}
+	return temp;
+}
+var var::operator*(var var2) const
+{
+	var temp(*this);
+	switch (type)
+	{
+	case 1:
+		switch (var2.type)
+		{
+		case 1:
+			temp.int_var *= var2.int_var;
+			break;
+		case 2:
+			temp.d_var *= var2.d_var;
+			break;
+		case 3:
+			temp.int_var *= atoi(var2.str_var);
+			break;
+		}
+
+	case 2:
+		switch (var2.type)
+		{
+		case 1:
+			temp.type = 2;
+			temp.d_var = var2.int_var * d_var;
+			break;
+		case 2:
+			temp.d_var *= var2.d_var;
+			break;
+		case 3:
+			temp.d_var *= atof(var2.str_var);
+			break;
+		}
+
+	case 3:
+		switch (var2.type)
+		{
+		case 1:
+			char buffer[32];
+			_itoa_s(var2.int_var, buffer, 10);
+			temp.str_var.MyStrCat(buffer);
+			break;
+		case 2:
+			char buffer2[32];
+			snprintf(buffer2, 32, "%lf", var2.d_var);
+			temp.str_var.MyStrCat(buffer2);
+			break;
+		case 3:
+			char buffer3[64];
+			int k = 0;
+			for (int i = 0; i < temp.str_var.MyStrLen(); i++)
+			{
+				for (int j = 0; j < strlen(var2.str_var); j++)
+				{
+					if (var2.str_var[j] == temp.str_var[i]) {
+						buffer3[k] = var2.str_var[j];
+						k++;
+					}
+				}
+			}
+			buffer3[k] = '\0';
+			temp.str_var = buffer3;
+			break;
+		}
+	}
+	return temp;
+}
+var var::operator/(var var2) const
+{
+	var temp(*this);
+	switch (type)
+	{
+	case 1:
+		switch (var2.type)
+		{
+		case 1:
+			temp.int_var /= var2.int_var;
+			break;
+		case 2:
+			temp.d_var /= var2.d_var;
+			break;
+		case 3:
+			temp.int_var /= atoi(var2.str_var);
+			break;
+		}
+
+	case 2:
+		switch (var2.type)
+		{
+		case 1:
+			temp.type = 2;
+			temp.d_var = var2.int_var / d_var;
+			break;
+		case 2:
+			temp.d_var /= var2.d_var;
+			break;
+		case 3:
+			temp.d_var /= atof(var2.str_var);
+			break;
+		}
+
+	case 3:
+		switch (var2.type)
+		{
+		case 1:
+			char buffer[32];
+			_itoa_s(var2.int_var, buffer, 10);
+			temp.str_var.MyStrCat(buffer);
+			break;
+		case 2:
+			char buffer2[32];
+			snprintf(buffer2, 32, "%lf", var2.d_var);
+			temp.str_var.MyStrCat(buffer2);
+			break;
+		case 3:
+			bool isAps = true;
+			char buffer3[64];
+			int k = 0;
+			for (int i = 0; i < temp.str_var.MyStrLen(); i++)
+			{
+				for (int j = 0; j < strlen(var2.str_var); j++)
+				{
+					if (var2.str_var[j] == temp.str_var[i]) {
+						isAps = false;
+						break;
+					}
+				}
+				if (isAps) {
+					buffer3[k] = temp.str_var[i];
+					k++;
+				}
+				isAps = true;
+			}
+			buffer3[k] = '\0';
+			temp.str_var = buffer3;
+			break;
+		}
+	}
+	return temp;
+}
+
+bool var::operator>(var var2) const
+{
+	switch (type)
+	{
+	case 1:
+		switch (var2.type)
+		{
+		case 1:
+			if (int_var > var2.int_var)return 1;
+			else return 0;
+		case 2:
+			if (int_var > var2.d_var)return 1;
+			else return 0;
+		case 3:
+			if (int_var > var2.str_var.MyStrLen()) return 1;
+			else return 0;
+		}
+		break;
+	case 2:
+		switch (var2.type)
+		{
+		case 1:
+			if (d_var > var2.d_var)return 1;
+			else return 0;
+		case 2:
+			if (d_var > var2.d_var)return 1;
+			else return 0;
+		case 3:
+			if (int(d_var) > var2.str_var.MyStrLen())return 1;
+			else return 0;
+		}
+		break;
+	case 3:
+		switch (var2.type)
+		{
+		case 1:
+			if (str_var.MyStrLen() > var2.int_var) return 1;
+			else return 0;
+		case 2:
+			if (str_var.MyStrLen() > int(var2.d_var)) return 1;
+			else return 0;
+		case 3:
+			if (str_var.MyStrLen() > var2.str_var.MyStrLen()) return 1;
+			else return 0;
+		}
+	}
+	return 0;
+}
+bool var::operator<(var var2) const
+{
+	switch (type)
+	{
+	case 1:
+		switch (var2.type)
+		{
+		case 1:
+			if (int_var < var2.int_var)return 1;
+			else return 0;
+		case 2:
+			if (int_var < var2.d_var)return 1;
+			else return 0;
+		case 3:
+			if (int_var < var2.str_var.MyStrLen()) return 1;
+			else return 0;
+		}
+		break;
+	case 2:
+		switch (var2.type)
+		{
+		case 1:
+			if (d_var < var2.d_var)return 1;
+			else return 0;
+		case 2:
+			if (d_var < var2.d_var)return 1;
+			else return 0;
+		case 3:
+			if (int(d_var) < var2.str_var.MyStrLen())return 1;
+			else return 0;
+		}
+		break;
+	case 3:
+		switch (var2.type)
+		{
+		case 1:
+			if (str_var.MyStrLen() < var2.int_var) return 1;
+			else return 0;
+		case 2:
+			if (str_var.MyStrLen() < int(var2.d_var)) return 1;
+			else return 0;
+		case 3:
+			if (str_var.MyStrLen() < var2.str_var.MyStrLen()) return 1;
+			else return 0;
+		}
+	}
+	return 0;
+}
+bool var::operator==(var var2) const
+{
+	switch (type)
+	{
+	case 1:
+		switch (var2.type)
+		{
+		case 1:
+			if (int_var == var2.int_var)return 1;
+			else return 0;
+		case 2:
+			if (int_var == var2.d_var)return 1;
+			else return 0;
+		case 3:
+			if (int_var == var2.str_var.MyStrLen()) return 1;
+			else return 0;
+		}
+		break;
+	case 2:
+		switch (var2.type)
+		{
+		case 1:
+			if (d_var == var2.d_var)return 1;
+			else return 0;
+		case 2:
+			if (d_var == var2.d_var)return 1;
+			else return 0;
+		case 3:
+			if (int(d_var) == var2.str_var.MyStrLen())return 1;
+			else return 0;
+		}
+		break;
+	case 3:
+		switch (var2.type)
+		{
+		case 1:
+			if (str_var.MyStrLen() == var2.int_var) return 1;
+			else return 0;
+		case 2:
+			if (str_var.MyStrLen() == int(var2.d_var)) return 1;
+			else return 0;
+		case 3:
+			if (str_var.MyStrLen() == var2.str_var.MyStrLen()) return 1;
+			else return 0;
+		}
+	}
+	return 0;
+}
+bool var::operator!=(var var2) const
+{
+	switch (type)
+	{
+	case 1:
+		switch (var2.type)
+		{
+		case 1:
+			if (int_var != var2.int_var)return 1;
+			else return 0;
+		case 2:
+			if (int_var != var2.d_var)return 1;
+			else return 0;
+		case 3:
+			if (int_var != var2.str_var.MyStrLen()) return 1;
+			else return 0;
+		}
+		break;
+	case 2:
+		switch (var2.type)
+		{
+		case 1:
+			if (d_var != var2.d_var)return 1;
+			else return 0;
+		case 2:
+			if (d_var != var2.d_var)return 1;
+			else return 0;
+		case 3:
+			if (int(d_var) != var2.str_var.MyStrLen())return 1;
+			else return 0;
+		}
+		break;
+	case 3:
+		switch (var2.type)
+		{
+		case 1:
+			if (str_var.MyStrLen() != var2.int_var) return 1;
+			else return 0;
+		case 2:
+			if (str_var.MyStrLen() != int(var2.d_var)) return 1;
+			else return 0;
+		case 3:
+			if (str_var.MyStrLen() != var2.str_var.MyStrLen()) return 1;
+			else return 0;
+		}
+	}
+	return 0;
+}
+
+var::operator int() const
+{
+	if (type == 3) {
+		return atof(str_var);
+	}
+	else if(type == 1)
+		return int(d_var);
+	
+	return int_var;
+}
+var::operator double() const
+{
+	if (type == 3) {
+		return atoi(str_var);
+	}
+	else if (type == 2) {
+		return double(int_var);
+	}
+	return d_var;
+}
+var::operator const char*() const
+{
+	if (type == 1) {
+		char buffer[32];
+		_itoa_s(int_var, buffer, 10);
+		return buffer;
+	}
+	else if (type == 2) {
+		char buffer2[32];
+		snprintf(buffer2, 32, "%lf", d_var);
+		return buffer2;
+	}
+	return str_var;
+
 }
 
 
